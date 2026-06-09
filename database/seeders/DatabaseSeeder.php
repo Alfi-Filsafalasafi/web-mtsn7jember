@@ -13,11 +13,26 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Admin user
+        \App\Models\User::create([
+            'name'     => 'Admin MTSN 7 Jember',
+            'email'    => 'admin@mtsn7jember.sch.id',
+            'password' => bcrypt('password123'),
+            'role'     => 'admin',
         ]);
+
+        // Settings awal
+        $settings = [
+            ['key' => 'school_name',    'value' => 'MTSN 7 Jember'],
+            ['key' => 'address',        'value' => 'Jl. Contoh No. 1, Jember, Jawa Timur'],
+            ['key' => 'phone',          'value' => '(0331) 000000'],
+            ['key' => 'email',          'value' => 'info@mtsn7jember.sch.id'],
+            ['key' => 'maps_embed',     'value' => 'https://maps.google.com/...'],
+            ['key' => 'principal_name', 'value' => 'Nama Kepala Sekolah'],
+        ];
+
+        foreach ($settings as $setting) {
+            \App\Models\Setting::create($setting);
+        }
     }
 }
