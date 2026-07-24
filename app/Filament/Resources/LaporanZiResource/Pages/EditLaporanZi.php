@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Filament\Resources\ArticleResource\Pages;
+namespace App\Filament\Resources\LaporanZiResource\Pages;
 
-use App\Filament\Resources\ArticleResource;
+use App\Filament\Resources\LaporanZiResource;
 use Filament\Actions;
 use Filament\Resources\Pages\EditRecord;
 
-class EditArticle extends EditRecord
+class EditLaporanZi extends EditRecord
 {
-    protected static string $resource = ArticleResource::class;
+    protected static string $resource = LaporanZiResource::class;
 
     protected function getHeaderActions(): array
     {

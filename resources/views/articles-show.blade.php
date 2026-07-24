@@ -4,148 +4,151 @@
 
 @section('content')
 
-{{-- PAGE HEADER --}}
-<section class="relative py-20 overflow-hidden"
-    style="background: linear-gradient(135deg, #0f3d1a 0%, #1a5c2a 60%, #0f3d1a 100%);">
-    <div style="position:absolute;top:-40px;left:-40px;width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.04);"></div>
-    <div style="position:absolute;bottom:-60px;right:8%;width:220px;height:220px;border-radius:50%;background:rgba(232,82,26,0.07);"></div>
-
-    <div class="relative z-10 max-w-7xl mx-auto px-6" data-aos="fade-up" data-aos-duration="700">
-        {{-- Badge kategori --}}
-        <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-4"
-            style="{{ $article->category === 'berita' ? 'background:rgba(255,255,255,0.15);color:#fff;' : 'background:#e8521a;color:#fff;' }}">
-            {{ ucfirst($article->category) }}
-        </span>
-        <h1 class="text-2xl md:text-4xl font-extrabold text-white leading-tight mb-4">
-            {{ $article->title }}
-        </h1>
-        <div class="flex flex-wrap items-center gap-4 text-green-300 text-xs">
-            {{-- Tanggal --}}
-            <span class="flex items-center gap-1.5">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                {{ $article->published_at?->format('d M Y, H:i') }} WIB
-            </span>
-            {{-- Penulis --}}
-            @if ($article->user)
-            <span class="flex items-center gap-1.5">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                {{ $article->user->name }}
-            </span>
-            @endif
-        </div>
-        {{-- Breadcrumb --}}
-        <div class="flex items-center gap-2 mt-5 text-xs text-green-400">
-            <a href="{{ route('home') }}" class="hover:text-white transition">Beranda</a>
-            <span class="text-green-600">/</span>
-            <a href="{{ route('articles') }}" class="hover:text-white transition">Berita & Kegiatan</a>
-            <span class="text-green-600">/</span>
-            <span class="text-white font-semibold line-clamp-1">{{ Str::limit($article->title, 40) }}</span>
+{{-- BREADCRUMB TIPIS --}}
+<div class="bg-white border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-6 py-4">
+        <div class="flex items-center gap-2 text-xs text-gray-400">
+            <a href="{{ route('home') }}" class="hover:text-green-700 transition">Beranda</a>
+            <span>/</span>
+            <a href="{{ route('articles') }}" class="hover:text-green-700 transition">Berita & Kegiatan</a>
+            <span>/</span>
+            <span class="text-gray-600 font-medium line-clamp-1">{{ Str::limit($article->title, 50) }}</span>
         </div>
     </div>
-</section>
+</div>
 
-{{-- KONTEN ARTIKEL --}}
-<section class="py-16 bg-gray-50">
+{{-- KONTEN --}}
+<section class="py-10 bg-gray-50">
     <div class="max-w-7xl mx-auto px-6">
-        <div class="flex flex-col lg:flex-row gap-10">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
 
-            {{-- Artikel Utama --}}
-            <article class="flex-1 min-w-0" data-aos="fade-up" data-aos-duration="700">
-                <div class="bg-white rounded-2xl overflow-hidden shadow-sm">
+            {{-- Kolom Kiri: Detail Artikel --}}
+            <article class="lg:col-span-2 bg-white rounded-2xl shadow-sm overflow-hidden" data-aos="fade-up" data-aos-duration="600">
 
-                    {{-- Thumbnail --}}
-                    @if ($article->thumbnail)
-                    <div class="w-full overflow-hidden" style="max-height:460px;">
-                        <img src="{{ Storage::url($article->thumbnail) }}" alt="{{ $article->title }}"
-                            class="w-full object-cover">
+                {{-- Thumbnail --}}
+                @if ($article->thumbnail)
+                <div class="w-full overflow-hidden" style="max-height:420px;">
+                    <img src="{{ Storage::url($article->thumbnail) }}" alt="{{ $article->title }}"
+                        class="w-full object-cover">
+                </div>
+                @endif
+
+                <div class="p-6 md:p-9">
+                    {{-- Badge kategori --}}
+                    <span class="inline-block text-xs font-semibold px-3 py-1 rounded-full mb-4"
+                        style="{{ $article->category === 'berita' ? 'background:#e8f5e9;color:#1a5c2a;' : 'background:#fff3e0;color:#e8521a;' }}">
+                        {{ ucfirst($article->category) }}
+                    </span>
+
+                    {{-- Judul --}}
+                    <h1 class="text-2xl md:text-3xl font-extrabold leading-tight mb-4" style="color:#1a2a1e;">
+                        {{ $article->title }}
+                    </h1>
+
+                    {{-- Meta --}}
+                    <div class="flex flex-wrap items-center gap-4 text-xs text-gray-400 pb-6 mb-6 border-b border-gray-100">
+                        <span class="flex items-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            {{ $article->published_at?->format('d M Y, H:i') }} WIB
+                        </span>
+                        @if ($article->user)
+                        <span class="flex items-center gap-1.5">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                            </svg>
+                            {{ $article->user->name }}
+                        </span>
+                        @endif
                     </div>
-                    @endif
 
                     {{-- Body --}}
-                    <div class="p-7 md:p-10">
-                        <div class="article-body prose prose-sm md:prose max-w-none text-gray-700 leading-relaxed">
-                            {!! $article->body !!}
-                        </div>
-
-                        {{-- Share --}}
-                        <div class="mt-10 pt-6 border-t border-gray-100 flex flex-wrap items-center gap-3">
-                            <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Bagikan:</span>
-                            {{-- WhatsApp --}}
-                            <a href="https://wa.me/?text={{ urlencode($article->title . ' - ' . request()->url()) }}"
-                                target="_blank" rel="noopener"
-                                class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white transition hover:opacity-85"
-                                style="background:#25D366;">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
-                                    <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.855L0 24l6.335-1.505A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.653-.498-5.188-1.37l-.372-.22-3.762.894.952-3.668-.243-.386A9.932 9.932 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
-                                </svg>
-                                WhatsApp
-                            </a>
-                            {{-- Copy link --}}
-                            <button onclick="copyLink()"
-                                class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold border border-gray-200 text-gray-600 transition hover:border-green-400 hover:text-green-700">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                                </svg>
-                                <span id="copy-label">Salin Link</span>
-                            </button>
-                        </div>
+                    <div class="article-body prose prose-sm md:prose max-w-none text-gray-700 leading-relaxed">
+                        {!! $article->body !!}
                     </div>
-                </div>
 
-                {{-- Tombol kembali --}}
-                <div class="mt-6">
-                    <a href="{{ route('articles') }}"
-                        class="inline-flex items-center gap-2 text-sm font-semibold transition hover:gap-3"
-                        style="color:#1a5c2a;">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
-                            stroke="currentColor" stroke-width="2.5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
-                        </svg>
-                        Kembali ke Berita
-                    </a>
+                    {{-- Share --}}
+                    <div class="mt-10 pt-6 border-t border-gray-100 flex flex-wrap items-center gap-3">
+                        <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">Bagikan:</span>
+                        <a href="https://wa.me/?text={{ urlencode($article->title . ' - ' . request()->url()) }}"
+                            target="_blank" rel="noopener"
+                            class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold text-white transition hover:opacity-85"
+                            style="background:#25D366;">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+                                <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.118 1.528 5.855L0 24l6.335-1.505A11.943 11.943 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.886 0-3.653-.498-5.188-1.37l-.372-.22-3.762.894.952-3.668-.243-.386A9.932 9.932 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
+                            </svg>
+                            WhatsApp
+                        </a>
+                        <button onclick="copyLink()"
+                            class="flex items-center gap-1.5 px-4 py-2 rounded-lg text-xs font-semibold border border-gray-200 text-gray-600 transition hover:border-green-400 hover:text-green-700">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                            </svg>
+                            <span id="copy-label">Salin Link</span>
+                        </button>
+                    </div>
+
+                    {{-- Tombol kembali --}}
+                    <div class="mt-8">
+                        <a href="{{ route('articles') }}"
+                            class="inline-flex items-center gap-2 text-sm font-semibold transition hover:gap-3"
+                            style="color:#1a5c2a;">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M7 16l-4-4m0 0l4-4m-4 4h18" />
+                            </svg>
+                            Kembali ke Berita
+                        </a>
+                    </div>
                 </div>
             </article>
 
-            {{-- Sidebar: Artikel Terkait --}}
+            {{-- Kolom Kanan: Berita Terbaru --}}
             @php
-            $related = \App\Models\Article::where('status', 'published')
+            $latestArticles = \App\Models\Article::where('status', 'published')
             ->where('id', '!=', $article->id)
-            ->where('category', $article->category)
             ->orderBy('published_at', 'desc')
-            ->take(4)
+            ->take(5)
             ->get();
             @endphp
 
-            @if ($related->count())
-            <aside class="lg:w-72 flex-shrink-0" data-aos="fade-left" data-aos-duration="700" data-aos-delay="100">
+            @if ($latestArticles->count())
+            <aside data-aos="fade-left" data-aos-duration="600" data-aos-delay="100">
                 <div class="bg-white rounded-2xl shadow-sm p-5 sticky top-24">
                     <div class="flex items-center gap-2 mb-5">
                         <div class="w-1 h-5 rounded-full" style="background:#e8521a;"></div>
-                        <h3 class="font-bold text-sm" style="color:#1a5c2a;">Artikel Terkait</h3>
+                        <h3 class="font-bold text-sm" style="color:#1a5c2a;">Berita Terbaru</h3>
                     </div>
                     <div class="space-y-4">
-                        @foreach ($related as $rel)
-                        <a href="{{ route('articles.show', $rel->slug) }}"
+                        @foreach ($latestArticles as $latest)
+                        <a href="{{ route('articles.show', $latest->slug) }}"
                             class="group flex gap-3 items-start hover:opacity-80 transition">
-                            <div class="w-16 h-14 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
-                                @if ($rel->thumbnail)
-                                <img src="{{ Storage::url($rel->thumbnail) }}" alt="{{ $rel->title }}"
+
+                            {{-- Gambar --}}
+                            <div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-gray-100">
+                                @if ($latest->thumbnail)
+                                <img src="{{ Storage::url($latest->thumbnail) }}" alt="{{ $latest->title }}"
                                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                                 @else
                                 <div class="w-full h-full flex items-center justify-center" style="background:#f0faf2;">
-                                    <img src="{{ asset('images/logo.png') }}" class="h-6 opacity-20">
+                                    <img src="{{ asset('images/logo.png') }}" class="h-7 opacity-20">
                                 </div>
                                 @endif
                             </div>
+
+                            {{-- Keterangan --}}
                             <div class="flex-1 min-w-0">
-                                <p class="text-xs text-gray-400 mb-0.5">{{ $rel->published_at?->format('d M Y') }}</p>
-                                <p class="text-xs font-semibold text-gray-700 group-hover:text-green-700 transition leading-snug line-clamp-2">
-                                    {{ $rel->title }}
+                                <span class="inline-block text-[10px] font-semibold px-2.5 py-0.5 rounded-full mb-1.5"
+                                    style="{{ $latest->category === 'berita' ? 'background:#e8f5e9;color:#1a5c2a;' : 'background:#fff3e0;color:#e8521a;' }}">
+                                    {{ ucfirst($latest->category) }}
+                                </span>
+                                <p class="text-xs font-semibold text-gray-700 group-hover:text-green-700 transition leading-snug line-clamp-2 mb-1">
+                                    {{ $latest->title }}
+                                </p>
+                                <p class="text-[11px] text-gray-400 leading-relaxed line-clamp-2">
+                                    {{ Str::limit(strip_tags($latest->body), 70) }}
                                 </p>
                             </div>
                         </a>

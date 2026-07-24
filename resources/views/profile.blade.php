@@ -69,6 +69,21 @@
                             </p>
                         </div>
                     </div>
+                    {{-- NPSN --}}
+                    <div class="flex items-center gap-3 bg-gray-50 rounded-xl p-4">
+                        <div class="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
+                            style="background:#e8f5e9;">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" style="color:#1a5c2a;" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                            </svg>
+                        </div>
+                        <div>
+                            <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide">NPSN</p>
+                            <p class="text-sm text-gray-700 mt-0.5">{{ \App\Models\Setting::get('npsn', '-') }}</p>
+                        </div>
+                    </div>
                     {{-- Telepon --}}
                     <div class="flex items-center gap-3 bg-gray-50 rounded-xl p-4">
                         <div class="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
@@ -99,6 +114,50 @@
                             <p class="text-sm text-gray-700 mt-0.5">{{ \App\Models\Setting::get('email', '-') }}</p>
                         </div>
                     </div>
+
+                    {{-- Media Sosial --}}
+                    @php
+                    $instagram = \App\Models\Setting::get('instagram_url');
+                    $tiktok = \App\Models\Setting::get('tiktok_url');
+                    $youtube = \App\Models\Setting::get('youtube_url');
+                    @endphp
+                    @if ($instagram || $tiktok || $youtube)
+                    <div class="bg-gray-50 rounded-xl p-4">
+                        <p class="text-xs font-semibold text-gray-400 uppercase tracking-wide mb-3">Media Sosial</p>
+                        <div class="flex items-center gap-3">
+                            @if ($instagram)
+                            <a href="{{ $instagram }}" target="_blank" rel="noopener noreferrer"
+                                class="w-9 h-9 rounded-lg flex items-center justify-center transition hover:opacity-80"
+                                style="background: linear-gradient(135deg, #f9ce34, #ee2a7b, #6228d7);"
+                                aria-label="Instagram">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+                                </svg>
+                            </a>
+                            @endif
+                            @if ($tiktok)
+                            <a href="{{ $tiktok }}" target="_blank" rel="noopener noreferrer"
+                                class="w-9 h-9 rounded-lg flex items-center justify-center transition hover:opacity-80"
+                                style="background:#111827;"
+                                aria-label="TikTok">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.58.07-5.37.01-4.03-.01-8.05.02-12.07z" />
+                                </svg>
+                            </a>
+                            @endif
+                            @if ($youtube)
+                            <a href="{{ $youtube }}" target="_blank" rel="noopener noreferrer"
+                                class="w-9 h-9 rounded-lg flex items-center justify-center transition hover:opacity-80"
+                                style="background:#ff0000;"
+                                aria-label="YouTube">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M23.498 6.186a2.994 2.994 0 00-2.107-2.117C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.391.524A2.994 2.994 0 00.502 6.186 31.32 31.32 0 000 12a31.32 31.32 0 00.502 5.814 2.994 2.994 0 002.107 2.117c1.886.524 9.391.524 9.391.524s7.505 0 9.391-.524a2.994 2.994 0 002.107-2.117A31.32 31.32 0 0024 12a31.32 31.32 0 00-.502-5.814zM9.75 15.568V8.432L15.818 12l-6.068 3.568z" />
+                                </svg>
+                            </a>
+                            @endif
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
 
@@ -150,12 +209,12 @@
                     <div class="space-y-3">
                         @php
                         $misi = [
-                            'Menyelenggarakan pendidikan agama Islam yang berkualitas untuk membentuk akhlak mulia dan karakter Islami pada setiap peserta didik.',
-                            'Meningkatkan mutu pendidikan akademik dan non-akademik melalui pembelajaran inovatif, kreatif, dan berbasis teknologi.',
-                            'Mengembangkan potensi, bakat, dan minat peserta didik melalui kegiatan ekstrakurikuler dan program unggulan madrasah.',
-                            'Menciptakan lingkungan madrasah yang bersih, sehat, hijau, dan kondusif sebagai wujud kepedulian terhadap lingkungan.',
-                            'Membangun kemitraan yang harmonis antara madrasah, orang tua, masyarakat, dan stakeholder untuk mendukung kemajuan pendidikan.',
-                            'Mempersiapkan peserta didik untuk mampu bersaing di era global dengan membekali kemampuan berbahasa asing dan literasi digital.',
+                        'Menyelenggarakan pendidikan agama Islam yang berkualitas untuk membentuk akhlak mulia dan karakter Islami pada setiap peserta didik.',
+                        'Meningkatkan mutu pendidikan akademik dan non-akademik melalui pembelajaran inovatif, kreatif, dan berbasis teknologi.',
+                        'Mengembangkan potensi, bakat, dan minat peserta didik melalui kegiatan ekstrakurikuler dan program unggulan madrasah.',
+                        'Menciptakan lingkungan madrasah yang bersih, sehat, hijau, dan kondusif sebagai wujud kepedulian terhadap lingkungan.',
+                        'Membangun kemitraan yang harmonis antara madrasah, orang tua, masyarakat, dan stakeholder untuk mendukung kemajuan pendidikan.',
+                        'Mempersiapkan peserta didik untuk mampu bersaing di era global dengan membekali kemampuan berbahasa asing dan literasi digital.',
                         ];
                         @endphp
 
@@ -211,6 +270,10 @@
 @push('scripts')
 <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
 <script>
-    AOS.init({ once: true, easing: 'ease-out-cubic', offset: 60 });
+    AOS.init({
+        once: true,
+        easing: 'ease-out-cubic',
+        offset: 60
+    });
 </script>
 @endpush
