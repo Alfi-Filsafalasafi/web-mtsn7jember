@@ -350,6 +350,8 @@
     </div>
 </section>
 
+@include('partials.zi-banner-modal')
+
 @endsection
 
 @push('styles')
