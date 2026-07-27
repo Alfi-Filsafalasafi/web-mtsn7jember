@@ -94,7 +94,7 @@
     <div class="max-w-7xl mx-auto px-6">
         <div class="grid grid-cols-2 md:grid-cols-4">
             @foreach ([
-            ['value' => '500+', 'label' => 'Siswa Aktif'],
+            ['value' => '700+', 'label' => 'Siswa Aktif'],
             ['value' => $totalTeachers, 'label' => 'Guru & Staf'],
             ['value' => '17', 'label' => 'Ekstrakurikuler'],
             ['value' => 'A', 'label' => 'Akreditasi'],

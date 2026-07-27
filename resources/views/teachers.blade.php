@@ -42,7 +42,7 @@
                     style="--tw-ring-color:#1a5c2a;">
             </div>
 
-            {{-- Filter tab --}}
+            <!-- {{-- Filter tab --}}
             <div class="flex gap-2 flex-shrink-0 flex-wrap">
                 @foreach ([
                 'all' => 'Semua',
@@ -56,7 +56,7 @@
                     {{ $label }}
                 </a>
                 @endforeach
-            </div>
+            </div> -->
 
             <button type="submit"
                 class="px-5 py-2.5 rounded-lg text-xs font-semibold text-white transition hover:opacity-90 flex-shrink-0"

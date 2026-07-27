@@ -6,6 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'MTSN 7 Jember')</title>
     <meta name="description" content="@yield('description', 'Website Resmi MTSN 7 Jember')">
+    <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="shortcut icon" type="image/png" href="{{ asset('images/logo.png') }}">
+    <link rel="apple-touch-icon" href="{{ asset('images/logo.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script>
@@ -28,6 +31,12 @@
     <style>
         * {
             font-family: 'Inter', sans-serif;
+        }
+
+        html,
+        body {
+            overflow-x: hidden;
+            max-width: 100%;
         }
     </style>
     @stack('styles')
@@ -80,10 +89,6 @@
                     ['route' => 'zona-integritas.survei', 'label' => 'Survei', 'active' => true],
                     ];
 
-                    $layanan = [
-                    ['route' => 'layanan.legalisir', 'label' => 'Legalisir'],
-                    ['route' => 'layanan.mutasi', 'label' => 'Mutasi Keluar & Masuk'],
-                    ];
 
                     $isZonaIntegritasActive = collect($zonaIntegritas)->contains(fn ($item) => $item['route'] && request()->routeIs($item['route']));
                     $isLayananActive = request()->routeIs('layanan.legalisir') || request()->routeIs('layanan.mutasi');
@@ -138,6 +143,8 @@
                             @endforeach
                         </div>
                     </div>
+
+
 
                     {{-- Menu biasa (setelah Zona Integritas) --}}
                     @foreach ($menusAfter as $menu)
@@ -207,29 +214,17 @@
                 </div>
             </div>
 
-            {{-- Layanan Accordion Mobile --}}
-            <div class="border-b border-gray-50">
-                <button id="layanan-toggle"
-                    class="w-full flex items-center justify-between px-6 py-3 text-sm font-semibold
-                       {{ $isLayananActive ? 'text-white' : 'text-gray-600' }}"
-                    style="{{ $isLayananActive ? 'background-color:#1a5c2a;' : '' }}">
-                    <span>Layanan</span>
-                    <svg id="layanan-icon" class="w-4 h-4 transition-transform duration-200"
-                        fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-                <div id="layanan-submenu" class="hidden bg-gray-50">
-                    @foreach ($layanan as $item)
-                    <a href="{{ route($item['route']) }}"
-                        class="block pl-10 pr-6 py-3 text-sm font-semibold border-t border-gray-100
-                           {{ request()->routeIs($item['route']) ? 'text-white' : 'text-gray-600' }}"
-                        style="{{ request()->routeIs($item['route']) ? 'background-color:#1a5c2a;' : '' }}">
-                        {{ $item['label'] }}
-                    </a>
-                    @endforeach
-                </div>
-            </div>
+
+
+            {{-- Menu biasa (setelah Zona Integritas & Layanan) --}}
+            @foreach ($menusAfter as $menu)
+            <a href="{{ route($menu['route']) }}"
+                class="block px-6 py-3 text-sm font-semibold border-b border-gray-50
+                   {{ request()->routeIs($menu['route']) ? 'text-white' : 'text-gray-600' }}"
+                style="{{ request()->routeIs($menu['route']) ? 'background-color:#1a5c2a;' : '' }}">
+                {{ $menu['label'] }}
+            </a>
+            @endforeach
         </div>
     </nav>
 
@@ -305,18 +300,10 @@
     </footer>
 
     <script>
-        const toggle = document.getElementById('menu-toggle');
-        const menu = document.getElementById('mobile-menu');
-        const iconOpen = document.getElementById('icon-open');
-        const iconClose = document.getElementById('icon-close');
-        toggle.addEventListener('click', () => {
-            menu.classList.toggle('hidden');
-            iconOpen.classList.toggle('hidden');
-            iconClose.classList.toggle('hidden');
-        });
-        // Hamburger toggle
         const menuToggle = document.getElementById('menu-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
+        const iconOpen = document.getElementById('icon-open');
+        const iconClose = document.getElementById('icon-close');
 
         menuToggle.addEventListener('click', () => {
             mobileMenu.classList.toggle('hidden');

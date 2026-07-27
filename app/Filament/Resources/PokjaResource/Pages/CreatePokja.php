@@ -9,4 +9,8 @@ use Filament\Resources\Pages\CreateRecord;
 class CreatePokja extends CreateRecord
 {
     protected static string $resource = PokjaResource::class;
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
 }
