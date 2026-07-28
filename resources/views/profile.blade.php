@@ -49,7 +49,7 @@
                 </h2>
                 <p class="text-xs text-gray-500 mt-1">Madrasah Tsanawiyah Negeri 7 Jember</p>
 
-                <div class="mt-6 w-full space-y-3">
+                <div class="mt-6 w-full space-y-3 text-left">
                     {{-- Alamat --}}
                     <div class="flex items-start gap-3 bg-gray-50 rounded-xl p-4">
                         <div class="flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center"
@@ -196,7 +196,7 @@
                     <div class="relative pl-6 py-5 pr-6 rounded-2xl border-l-4"
                         style="background:#f7faf8; border-color:#1a5c2a;">
                         <p class="text-gray-700 text-sm md:text-base leading-relaxed italic font-medium">
-                            "Terwujudnya Insan yang Berakhlak Mulia, Berprestasi, Terampil, Peduli Lingkungan, dan Berwawasan Global Berlandaskan Nilai-Nilai Islam."
+                            "Terwujudnya Insan yang beriman, berilmu, bermoral, kompetitif, berwawasan global dan peduli lingkungan"
                         </p>
                     </div>
                 </div>
@@ -220,12 +220,15 @@
                     <div class="space-y-3">
                         @php
                         $misi = [
-                        'Menyelenggarakan pendidikan agama Islam yang berkualitas untuk membentuk akhlak mulia dan karakter Islami pada setiap peserta didik.',
-                        'Meningkatkan mutu pendidikan akademik dan non-akademik melalui pembelajaran inovatif, kreatif, dan berbasis teknologi.',
-                        'Mengembangkan potensi, bakat, dan minat peserta didik melalui kegiatan ekstrakurikuler dan program unggulan madrasah.',
-                        'Menciptakan lingkungan madrasah yang bersih, sehat, hijau, dan kondusif sebagai wujud kepedulian terhadap lingkungan.',
-                        'Membangun kemitraan yang harmonis antara madrasah, orang tua, masyarakat, dan stakeholder untuk mendukung kemajuan pendidikan.',
-                        'Mempersiapkan peserta didik untuk mampu bersaing di era global dengan membekali kemampuan berbahasa asing dan literasi digital.',
+                        'Menumbuhkan penghayatan terhadap ajaran agama dan budaya bangsa sehingga terbangun siswa yang berkompeten dan berakhlak mulia.',
+                        'Menumbuhkan penghayatan terhadap ajaran agama dan budaya bangsa sehingga terbangun siswa yang berkompeten dan berakhlak mulia.',
+                        'Melaksanakan dan mengembangkan system pendidikan dan pengajaran sesuai kebutuhan.',
+                        'Melakukan pengembangan metode dan strategi pembelajaran.',
+                        'Mendorong setiap usaha peningkatan mutu madrasah, akademik dannon akademik.',
+                        'Meningkatkan kualitas kinerja tenaga pendidik dan kependidikan.',
+                        'Melengkapi penyediaan sarana dan prasarana belajar mengajar sesuai dengan kebutuhan dan perkembangan ilmu pengetahuan.',
+                        'Mewujudkan kesadaran warga madrasah untuk peduli lingkugan.',
+                        'Meningkatkan budaya literasi warga madrasah.'
                         ];
                         @endphp
 

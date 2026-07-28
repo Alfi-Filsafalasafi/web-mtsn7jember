@@ -89,9 +89,7 @@
                     ['route' => 'zona-integritas.survei', 'label' => 'Survei', 'active' => true],
                     ];
 
-
                     $isZonaIntegritasActive = collect($zonaIntegritas)->contains(fn ($item) => $item['route'] && request()->routeIs($item['route']));
-                    $isLayananActive = request()->routeIs('layanan.legalisir') || request()->routeIs('layanan.mutasi');
                     @endphp
 
                     {{-- Menu biasa (sebelum Zona Integritas) --}}
@@ -143,8 +141,6 @@
                             @endforeach
                         </div>
                     </div>
-
-
 
                     {{-- Menu biasa (setelah Zona Integritas) --}}
                     @foreach ($menusAfter as $menu)
@@ -214,9 +210,7 @@
                 </div>
             </div>
 
-
-
-            {{-- Menu biasa (setelah Zona Integritas & Layanan) --}}
+            {{-- Menu biasa (setelah Zona Integritas) --}}
             @foreach ($menusAfter as $menu)
             <a href="{{ route($menu['route']) }}"
                 class="block px-6 py-3 text-sm font-semibold border-b border-gray-50
@@ -261,7 +255,7 @@
                         </div>
                     </div>
                     <p class="text-green-200 text-sm leading-relaxed">
-                        Mencetak generasi yang berakhlak mulia, berprestasi, dan berwawasan global berlandaskan nilai-nilai Islam.
+                        Terwujudnya Insan yang beriman, berilmu, bermoral, kompetitif, berwawasan global dan peduli lingkungan
                     </p>
                 </div>
                 <div>
@@ -309,16 +303,6 @@
             mobileMenu.classList.toggle('hidden');
             iconOpen.classList.toggle('hidden');
             iconClose.classList.toggle('hidden');
-        });
-
-        // Layanan accordion mobile
-        const layananToggle = document.getElementById('layanan-toggle');
-        const layananSubmenu = document.getElementById('layanan-submenu');
-        const layananIcon = document.getElementById('layanan-icon');
-
-        layananToggle.addEventListener('click', () => {
-            layananSubmenu.classList.toggle('hidden');
-            layananIcon.classList.toggle('rotate-180');
         });
 
         // Zona Integritas accordion mobile

@@ -65,7 +65,7 @@
                 <span style="color: #f4a47a;">MTSN 7 Jember</span>
             </h1>
             <p class="text-green-100 text-base md:text-lg leading-relaxed mb-8">
-                Mencetak generasi yang berakhlak mulia, berprestasi, dan berwawasan global berlandaskan nilai-nilai Islam.
+                Terwujudnya Insan yang beriman, berilmu, bermoral, kompetitif, berwawasan global dan peduli lingkungan
             </p>
             <div class="flex flex-wrap gap-3">
                 <a href="#konten-utama"
