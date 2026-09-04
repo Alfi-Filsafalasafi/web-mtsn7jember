@@ -66,7 +66,7 @@
 
                 {{-- Jenis Wadul --}}
                 <div>
-                    <label class="block text-xs font-semibold text-gray-600 mb-1.5">
+                    <label class="block text-sm font-semibold text-gray-600 mb-1.5">
                         Jenis Wadul <span style="color:#e8521a;">*</span>
                     </label>
                     <div class="grid grid-cols-3 gap-3">
@@ -87,7 +87,7 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     {{-- Peran Pengisi --}}
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1.5">
+                        <label class="block text-sm font-semibold text-gray-600 mb-1.5">
                             Anda Sebagai <span style="color:#e8521a;">*</span>
                         </label>
                         <select name="pengisi_role" required
@@ -103,7 +103,7 @@
 
                     {{-- No. Telepon --}}
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 mb-1.5">
+                        <label class="block text-sm font-semibold text-gray-600 mb-1.5">
                             No. Telepon
                         </label>
                         <input type="text" name="phone" value="{{ old('phone') }}"
@@ -125,7 +125,7 @@
 
                 {{-- Nama --}}
                 <div id="name-field">
-                    <label class="block text-xs font-semibold text-gray-600 mb-1.5">
+                    <label class="block text-sm font-semibold text-gray-600 mb-1.5">
                         Nama Lengkap
                     </label>
                     <input type="text" name="name" id="name" value="{{ old('name') }}"
@@ -136,7 +136,7 @@
 
                 {{-- Keterangan --}}
                 <div>
-                    <label class="block text-xs font-semibold text-gray-600 mb-1.5">
+                    <label class="block text-sm font-semibold text-gray-600 mb-1.5">
                         Keterangan <span style="color:#e8521a;">*</span>
                     </label>
                     <textarea name="message" rows="5" required
@@ -147,7 +147,7 @@
 
                 {{-- Lampiran --}}
                 <div>
-                    <label class="block text-xs font-semibold text-gray-600 mb-1.5">
+                    <label class="block text-sm font-semibold text-gray-600 mb-1.5">
                         Lampiran Foto <span class="text-gray-400 font-normal">(opsional, maks. 2MB)</span>
                     </label>
                     <input type="file" name="attachment" accept="image/*"

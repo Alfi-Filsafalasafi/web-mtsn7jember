@@ -75,6 +75,7 @@
                     ['route' => 'home', 'label' => 'Beranda'],
                     ['route' => 'profile', 'label' => 'Profil'],
                     ['route' => 'articles', 'label' => 'Berita'],
+                    ['route' => 'literasi', 'label' => 'Literasi'],
                     ['route' => 'teachers', 'label' => 'Guru & Staf'],
                     ];
 
@@ -264,6 +265,7 @@
                         <li><a href="{{ route('home') }}" class="hover:text-white transition">Beranda</a></li>
                         <li><a href="{{ route('profile') }}" class="hover:text-white transition">Profil Sekolah</a></li>
                         <li><a href="{{ route('articles') }}" class="hover:text-white transition">Berita & Pengumuman</a></li>
+                        <li><a href="{{ route('literasi') }}" class="hover:text-white transition">Literasi</a></li>
                         <li><a href="{{ route('teachers') }}" class="hover:text-white transition">Guru & Staf</a></li>
                         <li><a href="{{ route('contact') }}" class="hover:text-white transition">Kontak</a></li>
                         <li><a href="{{ route('wadul-gusdar.create') }}" class="hover:text-white transition">Wadul Gus Dar</a></li>

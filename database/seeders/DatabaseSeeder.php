@@ -44,5 +44,10 @@ class DatabaseSeeder extends Seeder
                 ['value' => $setting['value']]
             );
         }
+
+        // Password konfirmasi submit Literasi (default: "literasi")
+        $this->call([
+            LiterasiPasswordSeeder::class,
+        ]);
     }
 }
