@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'MTSN 7 Jember')</title>
     <meta name="description" content="@yield('description', 'Website Resmi MTSN 7 Jember')">
     <link rel="icon" type="image/png" href="{{ asset('images/logo.png') }}">

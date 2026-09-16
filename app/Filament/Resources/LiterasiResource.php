@@ -84,6 +84,15 @@ class LiterasiResource extends Resource
                         Forms\Components\RichEditor::make('isi')
                             ->label('Isi Literasi')
                             ->required()
+                            // Tanpa ini, gambar yang di-paste (mis. dari Word) akan
+                            // di-embed sebagai base64 langsung di kolom "isi" —
+                            // bikin ukuran konten meledak dan gampang 503 di server.
+                            // Dengan disk/directory ini, gambar yang di-paste atau
+                            // di-drop otomatis diupload ke storage dan hanya URL-nya
+                            // yang disimpan di konten.
+                            ->fileAttachmentsDisk('public')
+                            ->fileAttachmentsDirectory('literasi-content')
+                            ->fileAttachmentsVisibility('public')
                             ->columnSpanFull(),
                     ]),
             ]);

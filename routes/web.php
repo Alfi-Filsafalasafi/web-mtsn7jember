@@ -23,10 +23,12 @@ Route::get('/layanan-mutasi', [LayananController::class, 'mutasi'])->name('layan
 
 
 
+
 Route::get('/literasi', [LiterasiController::class, 'index'])->name('literasi');
 Route::get('/literasi/upload', [LiterasiController::class, 'create'])->name('literasi.create');
 Route::post('/literasi/upload', [LiterasiController::class, 'store'])->name('literasi.store');
 Route::get('/literasi/{literasi:slug}', [LiterasiController::class, 'show'])->name('literasi.show');
+Route::post('/literasi/upload-gambar', [LiterasiController::class, 'uploadImage'])->name('literasi.upload-image');
 
 Route::get('/wadul-gusdar', [WadulGusDarController::class, 'create'])->name('wadul-gusdar.create');
 Route::post('/wadul-gusdar', [WadulGusDarController::class, 'store'])->name('wadul-gusdar.store');

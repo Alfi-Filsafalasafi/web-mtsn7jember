@@ -195,14 +195,14 @@
                     <p class="text-xs text-gray-400 mt-1.5">Password ini dipakai untuk memverifikasi bahwa kamu benar-benar bagian dari MTsN 7 Jember.</p>
                 </div>
 
-                <button type="submit"
+                <button type="submit" id="submit-btn"
                     class="w-full py-3 rounded-lg font-semibold text-sm text-white transition hover:opacity-90 flex items-center justify-center gap-2"
                     style="background:#e8521a;">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24"
                         stroke="currentColor" stroke-width="2">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
                     </svg>
-                    Kirim Artikel
+                    <span id="submit-btn-text">Kirim Artikel</span>
                 </button>
             </form>
         </div>
@@ -255,6 +255,63 @@
     radioInputs.forEach(radio => radio.addEventListener('change', updateRadioStyle));
     updateRadioStyle();
 
+    // ── Kompres & resize gambar sebelum diupload (biar isi literasi gak berat) ──
+    function compressImage(file, maxWidth, quality) {
+        return new Promise((resolve) => {
+            const img = new Image();
+            const reader = new FileReader();
+
+            reader.onload = (e) => {
+                img.onload = () => {
+                    let { width, height } = img;
+
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    canvas.getContext('2d').drawImage(img, 0, 0, width, height);
+
+                    canvas.toBlob((blob) => resolve(blob), 'image/jpeg', quality);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+
+    // ── Upload gambar hasil kompresi ke server, lalu sisipkan URL-nya ke editor ──
+    function uploadEditorImage(blob, filename, range, quill) {
+        const formData = new FormData();
+        formData.append('image', blob, filename);
+        formData.append('_token', document.querySelector('meta[name="csrf-token"]').content);
+
+        // Placeholder loading sementara nunggu upload selesai
+        quill.insertText(range.index, 'Mengupload gambar...', { italic: true, color: '#9ca3af' });
+
+        fetch('{{ route('literasi.upload-image') }}', {
+            method: 'POST',
+            body: formData,
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                quill.deleteText(range.index, 'Mengupload gambar...'.length);
+                quill.insertEmbed(range.index, 'image', data.url, 'user');
+                quill.setSelection(range.index + 1);
+            })
+            .catch(() => {
+                quill.deleteText(range.index, 'Mengupload gambar...'.length);
+                alert('Gagal mengupload gambar, coba lagi.');
+            });
+    }
+
+    // Dipakai clipboard matcher di bawah untuk "membatalkan" insert base64
+    // bawaan Quill saat gambar di-paste (mis. dari Word).
+    const Delta = Quill.import('delta');
+
     // ── WYSIWYG (Quill) untuk Isi Literasi ──
     const isiTextarea = document.getElementById('isi');
     const quill = new Quill('#isi-editor', {
@@ -280,16 +337,45 @@
                             const file = input.files[0];
                             if (!file) return;
 
-                            const reader = new FileReader();
-                            reader.onload = (e) => {
+                            compressImage(file, 1200, 0.75).then((blob) => {
                                 const range = quill.getSelection(true);
-                                quill.insertEmbed(range.index, 'image', e.target.result, 'user');
-                                quill.setSelection(range.index + 1);
-                            };
-                            reader.readAsDataURL(file);
+                                uploadEditorImage(blob, file.name, range, quill);
+                            });
                         };
                     },
                 },
+            },
+            // ── Tangkap gambar yang di-PASTE (bukan lewat tombol toolbar) ──
+            // Ini yang menangani kasus "copas dari Word": secara default Quill
+            // akan insert <img src="data:image/..."> base64 langsung ke konten.
+            // Matcher ini mencegat gambar base64 tsb, meng-upload-nya lewat
+            // endpoint yang sama seperti tombol image, lalu menyisipkan hasil
+            // upload (URL, bukan base64) setelah selesai.
+            clipboard: {
+                matchers: [
+                    ['img', function (node, delta) {
+                        const src = node.getAttribute('src') || '';
+
+                        if (src.startsWith('data:image')) {
+                            fetch(src)
+                                .then((res) => res.blob())
+                                .then((blob) => {
+                                    const file = new File([blob], 'pasted-image.jpg', { type: blob.type || 'image/jpeg' });
+                                    return compressImage(file, 1200, 0.75);
+                                })
+                                .then((compressedBlob) => {
+                                    const range = quill.getSelection(true) || { index: quill.getLength() };
+                                    uploadEditorImage(compressedBlob, 'pasted-image.jpg', range, quill);
+                                });
+
+                            // Buang delta base64 bawaan; hasil upload akan
+                            // disisipkan sendiri oleh uploadEditorImage di atas.
+                            return new Delta();
+                        }
+
+                        return delta;
+                    }],
+                ],
             },
         },
     });
@@ -307,6 +393,11 @@
             document.getElementById('isi-editor').scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
             isiError.classList.add('hidden');
+            const submitBtn = document.getElementById('submit-btn');
+            const submitBtnText = document.getElementById('submit-btn-text');
+            submitBtn.disabled = true;
+            submitBtn.style.opacity = '0.7';
+            submitBtnText.textContent = 'Mengirim...';
         }
     });
 
@@ -334,24 +425,34 @@
         slugManuallyEdited = slugInput.value.trim() !== '';
     });
 
-    // ── Preview thumbnail ──
+    // ── Preview thumbnail + kompresi sebelum submit ──
     const thumbnailInput = document.getElementById('thumbnail');
     const previewWrapper = document.getElementById('thumbnail-preview-wrapper');
     const previewImage = document.getElementById('thumbnail-preview');
 
     thumbnailInput.addEventListener('change', function () {
         const file = this.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function (e) {
-                previewImage.src = e.target.result;
-                previewWrapper.classList.remove('hidden');
-            };
-            reader.readAsDataURL(file);
-        } else {
+        if (!file) {
             previewWrapper.classList.add('hidden');
             previewImage.src = '';
+            return;
         }
+
+        // Preview dulu pakai file asli (cepat, buat feedback visual)
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            previewImage.src = e.target.result;
+            previewWrapper.classList.remove('hidden');
+        };
+        reader.readAsDataURL(file);
+
+        // Kompres file asli, lalu ganti isi input file-nya biar yang ke-submit versi kecil
+        compressImage(file, 1200, 0.75).then((blob) => {
+            const compressedFile = new File([blob], file.name, { type: 'image/jpeg' });
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(compressedFile);
+            thumbnailInput.files = dataTransfer.files;
+        });
     });
 </script>
 @endpush

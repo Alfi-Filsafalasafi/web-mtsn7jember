@@ -77,6 +77,23 @@ class LiterasiController extends Controller
     }
 
     /**
+     * Upload 1 gambar dari editor WYSIWYG, dipakai lewat AJAX.
+     * Mengembalikan URL gambar yang disimpan (bukan base64), biar isi literasi tetap ringan.
+     */
+    public function uploadImage(Request $request)
+    {
+        $request->validate([
+            'image' => ['required', 'image', 'max:2048'],
+        ]);
+
+        $path = $request->file('image')->store('literasi-content', 'public');
+
+        return response()->json([
+            'url' => \Illuminate\Support\Facades\Storage::url($path),
+        ]);
+    }
+
+    /**
      * Simpan literasi baru dari form publik, dengan validasi password konfirmasi
      * dan centang pernyataan tulisan asli (bukan sepenuhnya AI).
      */
